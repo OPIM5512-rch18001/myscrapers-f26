@@ -200,7 +200,7 @@ def _vertex_extract_fields(raw_text: str) -> dict:
 "sunroof": {"type": "boolean", "nullable": True},
 "heated_seats": {"type": "boolean", "nullable": True},
         },
-        "required": ["price", "year", "make", "model", "mileage"]
+"required": ["price", "year", "make", "model", "mileage"]
     }
 
     # System instruction (will be prepended to the prompt)
