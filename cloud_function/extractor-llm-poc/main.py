@@ -179,30 +179,68 @@ def _vertex_extract_fields(raw_text: str) -> dict:
 
     # Strict JSON schema - FIX: Removed "additionalProperties": False
     schema = {
-        # ---- A07: 15 fields (left OUT of "required" so Gemini can return null instead of guessing) ----
-"trim": {"type": "string", "nullable": True},
-"body_type": {"type": "string", "nullable": True,
-              "enum": ["sedan", "suv", "truck", "coupe", "convertible", "hatchback", "wagon", "minivan", "van", "other"]},
-"drivetrain": {"type": "string", "nullable": True, "enum": ["fwd", "rwd", "awd", "4wd"]},
-"transmission": {"type": "string", "nullable": True, "enum": ["automatic", "manual"]},
-"fuel_type": {"type": "string", "nullable": True, "enum": ["gas", "diesel", "hybrid", "electric"]},
-"exterior_color": {"type": "string", "nullable": True,
-                   "enum": ["black", "white", "silver", "gray", "blue", "red", "green", "brown", "beige", "gold", "yellow", "orange", "purple", "other"]},
-"title_status": {"type": "string", "nullable": True, "enum": ["clean", "rebuilt", "salvage", "lien", "missing", "parts only"]},
-"condition": {"type": "string", "nullable": True, "enum": ["new", "like new", "excellent", "good", "fair", "salvage"]},
-"leather_seats": {"type": "boolean", "nullable": True},
-"city": {"type": "string", "nullable": True},
+    "type": "object",
+    "properties": {
+        "price": {"type": "integer", "nullable": True},
+        "year": {"type": "integer", "nullable": True},
+        "make": {"type": "string", "nullable": True},
+        "model": {"type": "string", "nullable": True},
+        "mileage": {"type": "integer", "nullable": True},
 
-"doors": {"type": "integer", "nullable": True},
-"seating_capacity": {"type": "integer", "nullable": True},
-"interior_color": {"type": "string", "nullable": True,
-                   "enum": ["black", "white", "gray", "beige", "brown", "red", "blue", "other"]},
-"sunroof": {"type": "boolean", "nullable": True},
-"heated_seats": {"type": "boolean", "nullable": True},
+        # ---- A07: additional fields ----
+        "trim": {"type": "string", "nullable": True},
+        "body_type": {
+            "type": "string",
+            "nullable": True,
+            "enum": ["sedan", "suv", "truck", "coupe", "convertible",
+                     "hatchback", "wagon", "minivan", "van", "other"],
         },
-"required": ["price", "year", "make", "model", "mileage"]
-    }
-
+        "drivetrain": {
+            "type": "string",
+            "nullable": True,
+            "enum": ["fwd", "rwd", "awd", "4wd"],
+        },
+        "transmission": {
+            "type": "string",
+            "nullable": True,
+            "enum": ["automatic", "manual"],
+        },
+        "fuel_type": {
+            "type": "string",
+            "nullable": True,
+            "enum": ["gas", "diesel", "hybrid", "electric"],
+        },
+        "exterior_color": {
+            "type": "string",
+            "nullable": True,
+            "enum": ["black", "white", "silver", "gray", "blue", "red",
+                     "green", "brown", "beige", "gold", "yellow",
+                     "orange", "purple", "other"],
+        },
+        "title_status": {
+            "type": "string",
+            "nullable": True,
+            "enum": ["clean", "rebuilt", "salvage", "lien", "missing", "parts only"],
+        },
+        "condition": {
+            "type": "string",
+            "nullable": True,
+            "enum": ["new", "like new", "excellent", "good", "fair", "salvage"],
+        },
+        "leather_seats": {"type": "boolean", "nullable": True},
+        "city": {"type": "string", "nullable": True},
+        "doors": {"type": "integer", "nullable": True},
+        "seating_capacity": {"type": "integer", "nullable": True},
+        "interior_color": {
+            "type": "string",
+            "nullable": True,
+            "enum": ["black", "white", "gray", "beige", "brown", "red", "blue", "other"],
+        },
+        "sunroof": {"type": "boolean", "nullable": True},
+        "heated_seats": {"type": "boolean", "nullable": True},
+    },
+    "required": ["price", "year", "make", "model", "mileage"],
+}
     # System instruction (will be prepended to the prompt)
     sys_instr = (
         "Extract ONLY the following fields from the input text. "
